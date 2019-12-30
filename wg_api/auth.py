@@ -1,5 +1,6 @@
 from flask_resty import ApiError, HeaderAuthentication
 from sqlalchemy.orm.exc import NoResultFound
+
 from . import models
 
 

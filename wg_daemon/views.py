@@ -1,18 +1,36 @@
 from flask_resty import ApiView
 
-from . import config, schemas
-
+from . import controller, schemas
 
 # TODO: Service auth
-class SyncView(ApiView):
-    schema = schemas.SyncSchema()
+
+
+class ConfigurationShowView(ApiView):
+    serializer = schemas.ConfigurationShowSchema()
+
+    def get(self):
+        return self.make_response(controller.wg_show())
+
+
+class ConfigurationSyncView(ApiView):
+    deserializer = schemas.ConfigurationSyncSchema()
 
     def post(self):
-        data = self.get_request_data()
+        controller.wg_syncconf(self.get_request_data())
+        return self.make_empty_response()
 
-        try:
-            config.sync(data)
-        except Exception as e:
-            raise ApiError(422) from e
 
+class InterfaceDownView(ApiView):
+    deserializer = schemas.InterfaceDownSchema()
+
+    def post(self):
+        controller.wg_quick_down(self.get_request_data()["interface"])
+        return self.make_empty_response()
+
+
+class InterfaceUpView(ApiView):
+    deserializer = schemas.InterfaceUpSchema()
+
+    def post(self):
+        controller.wg_quick_up(self.get_request_data()["interface"])
         return self.make_empty_response()

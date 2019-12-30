@@ -1,4 +1,5 @@
 import operator
+
 from flask_resty import (
     ColumnFilter,
     Filtering,
@@ -8,7 +9,6 @@ from flask_resty import (
 )
 
 from . import auth, models, schemas
-
 
 # -----------------------------------------------------------------------------
 
